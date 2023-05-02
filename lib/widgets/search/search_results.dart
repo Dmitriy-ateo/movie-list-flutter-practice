@@ -4,11 +4,17 @@ import 'package:flutter_practice/blocs/search/search_bloc.dart';
 import 'package:flutter_practice/blocs/search/search_state.dart';
 import 'package:flutter_practice/models/movie.dart';
 
+import '../../helpers/route_helper.dart';
+
+const TMDB_IMAGE_PATH = "https://image.tmdb.org/t/p/w500";
+
 class SearchResults extends StatelessWidget {
   const SearchResults({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    RouteHelper route = new RouteHelper(context);
+
     return Expanded(
       child: BlocBuilder<SearchBloc, SearchState>(
         builder: (context, state) {
@@ -33,9 +39,26 @@ class SearchResults extends StatelessWidget {
                 itemCount: movieList.length,
                 itemBuilder: (context, index) {
                   var movie = movieList[index];
-                  return ListTile(
-                    title: Text('${movie.title} (${movie.year})'),
-                    onTap: () {},
+                  return Card(
+                    child: ListTile(
+                      leading: movie.imageUrl != null
+                        ? Image.network(
+                            TMDB_IMAGE_PATH + movie.imageUrl,
+                            width: 80,
+                            height: 115,
+                            fit: BoxFit.contain,
+                          )
+                        : Image.asset(
+                            'images/no_image.png',
+                            width: 80,
+                            height: 115,
+                            fit: BoxFit.contain,
+                          ),
+                      title: Text('${movie.title} (${movie.year})'),
+                      onTap: () {
+                        route.navigateTo('/movie');
+                      },
+                    ),
                   );
                 },
               );

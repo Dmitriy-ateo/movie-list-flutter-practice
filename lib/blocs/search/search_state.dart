@@ -1,4 +1,3 @@
-import 'package:flutter_practice/models/movie.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 

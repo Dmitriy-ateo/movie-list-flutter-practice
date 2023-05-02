@@ -10,4 +10,11 @@ class MovieRepository {
     Future<Map> resultData = tmdb.v3.search.queryMovies(movieName);
     return resultData;
   }
+
+  Future<Map> getMovieDetails({
+    @required int movieId,
+  }) async {
+    Future<Map> resultData = tmdb.v3.movies.getDetails(movieId);
+    return resultData;
+  }
 }

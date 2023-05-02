@@ -1,20 +1,21 @@
 import 'dart:async';
 import 'package:flutter_practice/blocs/movieRepository.dart';
-import 'package:flutter_practice/blocs/search/search_event.dart';
-import 'package:flutter_practice/blocs/search/search_state.dart';
 import 'package:flutter_practice/models/movie.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 import 'package:intl/intl.dart';
 
-class SearchBloc extends Bloc<SearchEvent, SearchState> {
+import 'details_event.dart';
+import 'details_state.dart';
+
+class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
   final MovieRepository movieRepository;
 
-  SearchBloc({
+  DetailsBloc({
     @required this.movieRepository,
   })  : assert(movieRepository != null);
 
-  SearchState get initialState => SearchInitial();
+  DetailsState get initialState => DetailsInitial();
 
   String getYear(String date) {
     if (date != "") {
@@ -40,9 +41,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   @override
-  Stream<SearchState> mapEventToState(SearchEvent event) async* {
-    if (event is SearchButtonPressed) {
-      yield SearchLoading();
+  Stream<DetailsState> mapEventToState(DetailsEvent event) async* {
+    if (event is DetailsButtonPressed) {
+      yield DetailsLoading();
 
       try {
         final movieList = await movieRepository.searchMovies(
@@ -50,14 +51,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         );
 
         if (movieList['errors'] != null) {
-          yield SearchFailure(error: movieList['errors']);
+          yield DetailsFailure(error: movieList['errors']);
         } else if (movieList['total_results'] > 0) {
-          yield SearchCompleted(movieList: toViewModel(movieList['results']));
+          yield DetailsCompleted(movieList: toViewModel(movieList['results']));
         } else {
-          yield SearchFailure(error: "Nothing found");
+          yield DetailsFailure(error: "Nothing found");
         }
       } catch (error) {
-        yield SearchFailure(error: error.toString());
+        yield DetailsFailure(error: error.toString());
       }
     }
   }

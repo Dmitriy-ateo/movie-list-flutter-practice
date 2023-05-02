@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/home': (context) => HomeScreen(),
         '/search': (context) => SearchScreen(movieRepository: widget.movieRepository),
-        '/movie': (context) => MovieScreen(),
+        '/movie': (context) => MovieScreen(movieRepository: widget.movieRepository),
       },
     );
   }
