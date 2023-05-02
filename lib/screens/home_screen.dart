@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () {
-                  route.navigateTo('/search');
+                  route.navigateTo('/search', {});
                 },
               ),
             ],

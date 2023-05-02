@@ -14,9 +14,9 @@ class RouteHelper {
     Navigator.of(this.context).pushNamedAndRemoveUntil(pathName, (Route<dynamic> route) => false);
   }
 
-  void navigateTo(String pathName) {
+  void navigateTo(String pathName, Object arguments) {
     this.exitAttempts = 0;
-    Navigator.pushNamed(this.context, pathName);
+    Navigator.pushNamed(this.context, pathName, arguments: arguments);
   }
 
   void replaceTo(String pathName) {

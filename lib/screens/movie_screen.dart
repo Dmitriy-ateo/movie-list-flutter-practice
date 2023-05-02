@@ -3,12 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_practice/blocs/details/details_bloc.dart';
 import '../blocs/movieRepository.dart';
 
+class MovieArguments {
+  final int movieId;
+  MovieArguments(this.movieId);
+}
+
 class MovieScreen extends StatelessWidget {
   final MovieRepository movieRepository;
-  const MovieScreen({Key key, @required this.movieRepository}) : super(key: key);
+
+  const MovieScreen({Key key, @required this.movieRepository }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context).settings.arguments as MovieArguments;
+
     return Container(
       child: Scaffold(
         appBar: AppBar(
@@ -25,7 +33,7 @@ class MovieScreen extends StatelessWidget {
             child: SafeArea(
               child: Column(
                 children: <Widget>[
-                  Text('Movie Details')
+                  Text('Movie Details: ${args.movieId}')
                 ],
               )
             ),

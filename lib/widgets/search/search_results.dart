@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_practice/blocs/search/search_bloc.dart';
 import 'package:flutter_practice/blocs/search/search_state.dart';
 import 'package:flutter_practice/models/movie.dart';
+import 'package:flutter_practice/screens/movie_screen.dart';
 
 import '../../helpers/route_helper.dart';
 
@@ -56,7 +57,7 @@ class SearchResults extends StatelessWidget {
                           ),
                       title: Text('${movie.title} (${movie.year})'),
                       onTap: () {
-                        route.navigateTo('/movie');
+                        route.navigateTo('/movie', MovieArguments(movie.id));
                       },
                     ),
                   );
