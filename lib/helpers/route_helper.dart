@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class RouteHlpr {
+class RouteHelper {
   BuildContext context;
   int exitAttempts = 0;
   var subscription;
 
-  // Constructor, with syntactic sugar for assignment to members.
-  RouteHlpr(this.context) {
+  RouteHelper(this.context) {
     // Initialization code goes here.
   }
 
@@ -33,11 +31,11 @@ class RouteHlpr {
         title: Text('Warning'),
         content: Text('Do you really want to exit'),
         actions: [
-          FlatButton(
+          FilledButton(
             child: Text('Yes'),
             onPressed: () => Navigator.pop(c, true),
           ),
-          FlatButton(
+          FilledButton(
             child: Text('No'),
             onPressed: () => Navigator.pop(c, false),
           ),

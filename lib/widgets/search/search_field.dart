@@ -22,7 +22,7 @@ class SearchField extends StatelessWidget {
     return BlocListener<SearchBloc, SearchState>(
       listener: (context, state) {
         if (state is SearchFailure) {
-          Scaffold.of(context).showSnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('${state.error}'),
               backgroundColor: Colors.red,
@@ -55,7 +55,6 @@ class SearchField extends StatelessWidget {
                   ),
                 ),
                 fillColor: Colors.grey[600],
-                hasFloatingPlaceholder: false,
                 hintText: 'Enter name ...',
                 hintStyle: TextStyle(color: Colors.grey[600]),
                 contentPadding: EdgeInsets.symmetric(

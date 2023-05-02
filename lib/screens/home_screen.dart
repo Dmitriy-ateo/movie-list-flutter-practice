@@ -4,7 +4,7 @@ import 'package:flutter_practice/helpers/route_helper.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    RouteHlpr route = new RouteHlpr(context);
+    RouteHelper route = new RouteHelper(context);
 
     return WillPopScope(
       onWillPop: route.onBackPressed,
