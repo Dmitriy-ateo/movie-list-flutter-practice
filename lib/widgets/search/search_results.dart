@@ -32,8 +32,9 @@ class SearchResults extends StatelessWidget {
               return ListView.builder(
                 itemCount: movieList.length,
                 itemBuilder: (context, index) {
+                  var movie = movieList[index];
                   return ListTile(
-                    title: Text(movieList[index].title),
+                    title: Text('${movie.title} (${movie.year})'),
                     onTap: () {},
                   );
                 },

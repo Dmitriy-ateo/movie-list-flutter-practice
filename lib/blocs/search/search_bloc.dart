@@ -5,6 +5,7 @@ import 'package:flutter_practice/blocs/search/search_state.dart';
 import 'package:flutter_practice/models/movie.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
+import 'package:intl/intl.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final MovieRepository movieRepository;
@@ -15,14 +16,28 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   SearchState get initialState => SearchInitial();
 
+  String getYear(String date) {
+    print(date);
+    if (date != "") {
+      return DateFormat('yyyy-mm-dd')
+              .parse(date)
+              .year
+              .toString();
+    }
+
+    return "n/a";
+  }
+
   List<Movie> toViewModel(List<dynamic> dataModelList) {
     return dataModelList
         .map(
           (dataModel) =>
           Movie(
+            id: dataModel['id'],
             title: dataModel['original_title'],
             overview: dataModel['overview'],
             imageUrl: dataModel['poster_path'],
+            year: getYear(dataModel['release_date']),
           ),
         )
         .toList(growable: false);

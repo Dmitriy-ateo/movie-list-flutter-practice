@@ -1,4 +1,5 @@
 class Movie {
+  final int id;
   final String title;
   final String country;
   final String year;
@@ -7,6 +8,7 @@ class Movie {
   final double rate;
 
   Movie({
+    this.id,
     this.title,
     this.country,
     this.year,
