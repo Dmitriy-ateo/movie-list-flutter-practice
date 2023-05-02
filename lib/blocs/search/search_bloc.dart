@@ -38,7 +38,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           movieName: event.movieName,
         );
 
-        
         if (movieList['errors'] != null) {
           yield SearchFailure(error: movieList['errors']);
         } else if (movieList['total_results'] > 0) {
