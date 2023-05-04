@@ -25,35 +25,30 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     return "n/a";
   }
 
-  List<Movie> toViewModel(List<dynamic> dataModelList) {
-    return dataModelList
-        .map(
-          (dataModel) =>
-          Movie(
-            id: dataModel['id'],
-            title: dataModel['original_title'],
-            overview: dataModel['overview'],
-            imageUrl: dataModel['poster_path'],
-            year: getYear(dataModel['release_date']),
-          ),
-        )
-        .toList(growable: false);
+  Movie toViewModel(Map<dynamic, dynamic> movieDetails) {
+    return Movie(
+            id: movieDetails['id'],
+            title: movieDetails['original_title'],
+            overview: movieDetails['overview'],
+            imageUrl: movieDetails['poster_path'],
+            year: getYear(movieDetails['release_date']),
+          );
   }
 
   @override
   Stream<DetailsState> mapEventToState(DetailsEvent event) async* {
-    if (event is DetailsButtonPressed) {
+    if (event is DetailsRequested) {
       yield DetailsLoading();
 
       try {
-        final movieList = await movieRepository.searchMovies(
-          movieName: event.movieName,
+        final movieDetails = await movieRepository.getMovieDetails(
+          movieId: event.movieId,
         );
 
-        if (movieList['errors'] != null) {
-          yield DetailsFailure(error: movieList['errors']);
-        } else if (movieList['total_results'] > 0) {
-          yield DetailsCompleted(movieList: toViewModel(movieList['results']));
+        if (movieDetails['status_code'] != null) {
+          yield DetailsFailure(error: movieDetails['status_message']);
+        } else if (movieDetails != null) {
+          yield DetailsCompleted(movieDetails: toViewModel(movieDetails));
         } else {
           yield DetailsFailure(error: "Nothing found");
         }

@@ -5,17 +5,17 @@ abstract class DetailsEvent extends Equatable {
   const DetailsEvent();
 }
 
-class DetailsButtonPressed extends DetailsEvent {
-  final String movieName;
+class DetailsRequested extends DetailsEvent {
+  final int movieId;
 
-  const DetailsButtonPressed({
-    @required this.movieName,
+  const DetailsRequested({
+    @required this.movieId,
   });
 
   @override
-  List<Object> get props => [movieName];
+  List<Object> get props => [movieId];
 
   @override
   String toString() =>
-    'DetailsButtonPressed { movieName: $movieName}';
+    'DetailsRequested { movieId: $movieId }';
 }

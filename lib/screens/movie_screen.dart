@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_practice/blocs/details/details_bloc.dart';
 import '../blocs/movieRepository.dart';
+import '../widgets/details/movie_details.dart';
 
 class MovieArguments {
   final int movieId;
@@ -31,11 +32,11 @@ class MovieScreen extends StatelessWidget {
           child: GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: SafeArea(
-              child: Column(
-                children: <Widget>[
-                  Text('Movie Details: ${args.movieId}')
-                ],
-              )
+                child: Column(
+                  children: <Widget>[
+                    MovieDetails(movieId: args.movieId),
+                  ],
+                )
             ),
           ),
         ),

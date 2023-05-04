@@ -1,21 +1,22 @@
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class DetailsState extends Equatable {
+import '../../models/movie.dart';
+
+abstract class DetailsState {
   const DetailsState();
 
-  @override
-  List<Object> get props => [];
+  Object get props => {};
 }
 
 class DetailsInitial extends DetailsState {}
 class DetailsCompleted extends DetailsState {
-  final List<dynamic> movieList;
+  final Movie movieDetails;
 
-  const DetailsCompleted({@required this.movieList});
+  const DetailsCompleted({@required this.movieDetails});
 
   @override
-  List<dynamic> get props => movieList;
+  Movie get props => movieDetails;
 }
 
 class DetailsLoading extends DetailsState {}
