@@ -9,24 +9,30 @@ import 'package:flutter_practice/screens/movie_screen.dart';
 import 'package:flutter_practice/screens/search_screen.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+import 'data/Database.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   BlocSupervisor.delegate = SimpleBlocDelegate();
   final movieRepository = MovieRepository();
-  
+  final database = SQLiteDbProvider.db;
+
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => WatchList()),
-        ChangeNotifierProvider(create: (context) => WatchedList()),
+        ChangeNotifierProvider(create: (context) => WatchListNotifier()),
+        ChangeNotifierProvider(create: (context) => WatchedListNotifier()),
       ],
-      child: MyApp(movieRepository: movieRepository),
+      child: MyApp(movieRepository: movieRepository, database: database),
     ),
   );
 }
 
 class MyApp extends StatefulWidget {
   final MovieRepository movieRepository;
-  const MyApp({Key key, @required this.movieRepository}) : super(key: key);
+  final SQLiteDbProvider database;
+  const MyApp({Key key, @required this.movieRepository, @required this.database}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => new _MyAppState();
@@ -41,9 +47,9 @@ class _MyAppState extends State<MyApp> {
       ),
       initialRoute: '/home',
       routes: {
-        '/home': (context) => HomeScreen(),
+        '/home': (context) => HomeScreen(database: widget.database),
         '/search': (context) => SearchScreen(movieRepository: widget.movieRepository),
-        '/movie': (context) => MovieScreen(movieRepository: widget.movieRepository),
+        '/movie': (context) => MovieScreen(movieRepository: widget.movieRepository, database: widget.database),
       },
     );
   }

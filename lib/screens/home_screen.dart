@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/helpers/route_helper.dart';
 
+import '../data/Database.dart';
+import '../widgets/home/watch_later_list.dart';
+import '../widgets/home/watched_list.dart';
+
 class HomeScreen extends StatelessWidget {
+  final SQLiteDbProvider database;
+
+  const HomeScreen({Key key, @required this.database}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     RouteHelper route = new RouteHelper(context);
@@ -32,8 +40,8 @@ class HomeScreen extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              Icon(Icons.directions_car),
-              Icon(Icons.directions_transit),
+              WatchLaterList(database: database),
+              WatchedList(database: database),
             ],
           ),
         ),

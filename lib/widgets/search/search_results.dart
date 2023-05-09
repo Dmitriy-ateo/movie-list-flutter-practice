@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_practice/blocs/search/search_bloc.dart';
@@ -43,8 +44,8 @@ class SearchResults extends StatelessWidget {
                   return Card(
                     child: ListTile(
                       leading: movie.imageUrl != null
-                        ? Image.network(
-                            TMDB_IMAGE_PATH + movie.imageUrl,
+                        ? CachedNetworkImage(
+                            imageUrl: TMDB_IMAGE_PATH + movie.imageUrl,
                             width: 80,
                             height: 115,
                             fit: BoxFit.contain,

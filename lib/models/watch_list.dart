@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/models/movie.dart';
 
-class WatchList extends ChangeNotifier {
+class WatchListNotifier extends ChangeNotifier {
   final List<Movie> _items = [];
 
   UnmodifiableListView<Movie> get items => UnmodifiableListView(_items);
@@ -13,8 +13,8 @@ class WatchList extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeAll() {
-    _items.clear();
+  void remove(int itemId) {
+    _items.removeWhere((element) => element.id == itemId);
     notifyListeners();
   }
 }
