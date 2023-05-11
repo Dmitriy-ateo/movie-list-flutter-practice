@@ -14,11 +14,20 @@ import 'details_state.dart';
 class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
   final MovieRepository movieRepository;
   final SQLiteDbProvider database;
+  final WatchListNotifier watchLaterList;
+  final WatchListNotifier watchedList;
 
   DetailsBloc({
     @required this.movieRepository,
-    @required this.database
-  })  : assert((movieRepository != null) && (database != null));
+    @required this.database,
+    @required this.watchLaterList,
+    @required this.watchedList
+  })  : assert(
+    (movieRepository != null)
+      && (database != null)
+      && (watchLaterList != null)
+      && (watchedList != null)
+  );
 
   DetailsState get initialState => DetailsInitial();
 
@@ -82,6 +91,7 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
         var _watchedList = (prefs.getStringList('watched') ?? []);
         if (!_watchedList.contains(event.movieId.toString())) {
           await database.addToWatchedList(_movieDetails);
+          watchedList.add(_movieDetails);
           _watchedList.add(event.movieId.toString());
           prefs.setStringList('watched', _watchedList);
         }
@@ -96,9 +106,9 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       try {
         final prefs = await SharedPreferences.getInstance();
         var _watchedList = (prefs.getStringList('watched') ?? []);
-
-        await database.removeFromWatchedList(event.movieId);
         if (_watchedList.contains(event.movieId.toString())) {
+          await database.removeFromWatchedList(event.movieId);
+          watchedList.remove(event.movieId);
           _watchedList.removeWhere((str){
             return str == event.movieId.toString();
           });
@@ -115,8 +125,9 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       try {
         final prefs = await SharedPreferences.getInstance();
         var _addedToWatchList = (prefs.getStringList('addedToWatch') ?? []);
-        await database.addToWatchList(_movieDetails);
         if (!_addedToWatchList.contains(event.movieId.toString())) {
+          await database.addToWatchList(_movieDetails);
+          watchLaterList.add(_movieDetails);
           _addedToWatchList.add(event.movieId.toString());
           prefs.setStringList('addedToWatch', _addedToWatchList);
         }
@@ -131,8 +142,9 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       try {
         final prefs = await SharedPreferences.getInstance();
         var _addedToWatchList = (prefs.getStringList('addedToWatch') ?? []);
-        await database.removeFromWatchList(event.movieId);
         if (_addedToWatchList.contains(event.movieId.toString())) {
+          await database.removeFromWatchList(event.movieId);
+          watchLaterList.remove(event.movieId);
           _addedToWatchList.removeWhere((str){
             return str == event.movieId.toString();
           });

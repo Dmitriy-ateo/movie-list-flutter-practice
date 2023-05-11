@@ -2,13 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_practice/helpers/route_helper.dart';
 
 import '../data/Database.dart';
+import '../models/watch_list.dart';
 import '../widgets/home/watch_later_list.dart';
-import '../widgets/home/watched_list.dart';
 
 class HomeScreen extends StatelessWidget {
   final SQLiteDbProvider database;
+  final WatchListNotifier watchLaterList;
+  final WatchListNotifier watchedList;
 
-  const HomeScreen({Key key, @required this.database}) : super(key: key);
+  const HomeScreen({
+    Key key,
+    @required this.database,
+    @required this.watchLaterList,
+    @required this.watchedList
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +47,8 @@ class HomeScreen extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              WatchLaterList(database: database),
-              WatchedList(database: database),
+              WatchLaterList(database: database, movieList: watchLaterList),
+              WatchLaterList(database: database, movieList: watchedList),
             ],
           ),
         ),

@@ -3,18 +3,22 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/models/movie.dart';
 
-class WatchListNotifier extends ChangeNotifier {
-  final List<Movie> _items = [];
+class WatchListNotifier extends ValueNotifier<List<Movie>> {
 
-  UnmodifiableListView<Movie> get items => UnmodifiableListView(_items);
+  WatchListNotifier(List<Movie> value): super(value);
+
+  void setItems(List<Movie> newItems) {
+    value = [...newItems];
+    notifyListeners();
+  }
 
   void add(Movie item) {
-    _items.add(item);
+    value.add(item);
     notifyListeners();
   }
 
   void remove(int itemId) {
-    _items.removeWhere((element) => element.id == itemId);
+    value.removeWhere((element) => element.id == itemId);
     notifyListeners();
   }
 }
